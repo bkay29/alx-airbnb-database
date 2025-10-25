@@ -233,7 +233,5 @@
 ---
 # ERD
 
-<p align="center">
-  <img src="./airbnb_erd.png" alt="AirBnB ERD Diagram" width="700">
-</p>
+visual image
 
