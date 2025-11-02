@@ -20,12 +20,11 @@ Displaying a user’s booking history on their profile.
 
 
 ## 2. LEFT JOIN - Retrieve All Properties and Their Reviews (Including Properties with No Reviews)
-- The LEFT JOIN retrieves all properties from the properties table,
-and any matching reviews from the reviews table.
+- The LEFT JOIN ensures that all properties are included in the results, even those without reviews.
 
-- Properties without reviews will still appear, but the review fields will be NULL.
+- Unreviewed properties will display NULL values for the review columns.
 
-- This ensures that every property is shown, even if it hasn’t been reviewed yet.
+- The ORDER BY p.property_id clause sorts the results by property, making it easier to read and ensuring consistent output for verification or deployment checks.
 
 Use Case Example:
 Displaying all listings on the host dashboard, including those awaiting their first review.
@@ -69,3 +68,27 @@ VALUES (1001, 101, 1, '2025-12-01', '2025-12-07', 'confirmed');
 
 INSERT INTO reviews (review_id, property_id, user_id, rating, comment, created_at)
 VALUES (5001, 101, 1, 5, 'Amazing experience!', NOW());
+
+
+# SQL Subqueries - Airbnb Clone Backend
+
+**Objective:**  
+Write both correlated and non-correlated subqueries to extract deeper analytical insights from relational data.
+
+---
+
+## 1.  Non-Correlated Subquery - Find properties with an average rating greater than 4.0
+
+- The inner subquery (SELECT r.property_id ...) calculates the average rating for each property.
+
+- The outer query then retrieves details of only those properties whose average rating > 4.0.
+
+- This is a non-correlated subquery because it runs independently of the outer query.
+
+## 2. Correlated Subquery - Find users who have made more than 3 bookings
+
+- The inner subquery counts how many bookings each user has made.
+
+- It references the outer query’s u.user_id, making it a correlated subquery (executed once per user).
+
+- The > 3 condition filters out users who have made four or more bookings.

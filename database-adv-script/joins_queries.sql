@@ -4,7 +4,7 @@ USE airbnb_db;
 
 -- 1. INNER JOIN — Retrieve all bookings and their respective users
 
-```sql
+
 SELECT  
     b.booking_id,
     b.property_id,
@@ -33,6 +33,7 @@ SELECT
 FROM properties AS p
 LEFT JOIN reviews AS r
     ON p.property_id = r.property_id;
+ORDER BY p.property_id;
 
 
 -- 3. FULL OUTER JOIN — Retrieve all users and their bookings 
