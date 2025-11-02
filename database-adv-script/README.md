@@ -92,3 +92,30 @@ Write both correlated and non-correlated subqueries to extract deeper analytical
 - It references the outer query’s u.user_id, making it a correlated subquery (executed once per user).
 
 - The > 3 condition filters out users who have made four or more bookings.
+
+
+
+# SQL Aggregation & Window Functions - Airbnb Clone Backend
+
+**Objective:**  
+Use SQL aggregation and window functions to analyze booking and property data.
+
+---
+
+## 1.  Total Number of Bookings Made by Each User
+
+- The COUNT(b.booking_id) function counts how many bookings each user has made.
+
+- The LEFT JOIN ensures users with zero bookings are also included.
+
+- Results are grouped by each user and sorted in descending order of booking count.
+
+## 2. Rank Properties Based on Total Number of Bookings
+
+- COUNT(b.booking_id) counts how many bookings each property has received.
+
+- The RANK() window function assigns a rank to each property based on booking totals.
+
+- Properties with the same number of bookings share the same rank.
+
+- The ORDER BY booking_rank ensures results appear in ranked order.
