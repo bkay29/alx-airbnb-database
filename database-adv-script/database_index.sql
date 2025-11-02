@@ -1,8 +1,28 @@
 
+
+## Step 1: Measure Query Performance BEFORE Indexing
+
+EXPLAIN ANALYZE
+SELECT  
+    b.booking_id,
+    b.user_id,
+    u.name AS user_name,
+    b.property_id,
+    p.title AS property_title,
+    b.check_in_date,
+    b.check_out_date,
+    b.status
+FROM bookings AS b
+INNER JOIN users AS u
+    ON b.user_id = u.user_id
+INNER JOIN properties AS p
+    ON b.property_id = p.property_id
+WHERE b.status = 'confirmed'
+ORDER BY b.check_in_date DESC;
+
+
+
 ## Step 2: Create Indexes on High-Usage Columns
-
-Now create indexes on the most frequently used columns in WHERE, JOIN, and ORDER BY clauses.
-
 
 -- Index on user email for faster lookups and filters
 CREATE INDEX idx_users_email ON users(email);
@@ -21,3 +41,25 @@ CREATE INDEX idx_properties_title ON properties(title);
 
 -- Composite index for frequent combined lookups on user_id and property_id
 CREATE INDEX idx_bookings_user_property ON bookings(user_id, property_id);
+
+
+
+## Step 3: Measure Query Performance AFTER Indexing
+
+EXPLAIN ANALYZE
+SELECT  
+    b.booking_id,
+    b.user_id,
+    u.name AS user_name,
+    b.property_id,
+    p.title AS property_title,
+    b.check_in_date,
+    b.check_out_date,
+    b.status
+FROM bookings AS b
+INNER JOIN users AS u
+    ON b.user_id = u.user_id
+INNER JOIN properties AS p
+    ON b.property_id = p.property_id
+WHERE b.status = 'confirmed'
+ORDER BY b.check_in_date DESC;

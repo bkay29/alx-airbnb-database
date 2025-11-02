@@ -1,9 +1,11 @@
 
-# SQL Performance Optimization - Airbnb Clone Backend
 
--- ===================================================
+# ==========================================
+# Objective: Analyze and optimize complex queries
+# ==========================================
+
 -- 1. Initial Query: Retrieve all bookings with user, property, and payment details
--- ===================================================
+-- Includes WHERE and AND clauses for realistic filtering
 
 SELECT  
     b.booking_id,
@@ -26,13 +28,13 @@ INNER JOIN properties AS p
     ON b.property_id = p.property_id
 INNER JOIN payments AS pay
     ON b.booking_id = pay.booking_id
+WHERE b.status = 'confirmed'
+  AND pay.status = 'completed'
 ORDER BY b.check_in_date DESC;
 
 
-
--- ===================================================
--- 2. Analyze Query Performance Using EXPLAIN
--- ===================================================
+-- 2. Analyze Query Performance
+-- Use EXPLAIN to analyze query execution plan and identify inefficiencies
 
 EXPLAIN
 SELECT  
@@ -56,18 +58,6 @@ INNER JOIN properties AS p
     ON b.property_id = p.property_id
 INNER JOIN payments AS pay
     ON b.booking_id = pay.booking_id
+WHERE b.status = 'confirmed'
+  AND pay.status = 'completed'
 ORDER BY b.check_in_date DESC;
-
-
-
--- ===================================================
--- 3.  Observations & Inefficiencies (for documentation)
--- ===================================================
--- ❌ Full table scans likely on users, properties, and payments.
--- ❌ No indexes used on foreign key columns (user_id, property_id, booking_id).
--- ❌ Sorting (ORDER BY b.check_in_date) may cause temporary file usage if unindexed.
-
--- ✅ Recommended Refactor (to be implemented in next step):
---    - Add indexes on bookings.user_id, bookings.property_id, payments.booking_id, and bookings.check_in_date.
---    - Use only necessary columns in SELECT to reduce I/O load.
---    - Consider LEFT JOINs if not all bookings have payments yet.
